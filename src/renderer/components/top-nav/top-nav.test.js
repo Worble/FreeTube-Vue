@@ -1,20 +1,10 @@
-import {
-  mount,
-  shallowMount,
-  createLocalVue
-} from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import TopNav from './top-nav.vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import {
-  FontAwesomeIcon
-} from '@fortawesome/vue-fontawesome'
-import {
-  library
-} from '@fortawesome/fontawesome-svg-core'
-import {
-  fas
-} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
@@ -32,7 +22,7 @@ describe('TopNav', () => {
   beforeEach(() => {
     getters = {
       getEnableSearchSuggestions: jest.fn(),
-      getSearchSettings: jest.fn(x => {
+      getSearchSettings: jest.fn((x) => {
         return {
           sortBy: '',
           time: '',
@@ -44,16 +34,16 @@ describe('TopNav', () => {
       getBarColor: jest.fn(),
       getInvidiousInstance: jest.fn(),
       getBackendFallback: jest.fn(),
-      getBackendPreference: jest.fn(),
+      getBackendPreference: jest.fn()
     }
 
     actions = {
-      getVideoIdFromUrl: jest.fn(async x => null),
+      getVideoIdFromUrl: jest.fn(async (x) => null)
     }
 
     store = new Vuex.Store({
       actions,
-      getters,
+      getters
     })
   })
 
@@ -62,7 +52,7 @@ describe('TopNav', () => {
     const wrapper = mount(TopNav, {
       localVue,
       router,
-      store,
+      store
     })
 
     const input = wrapper.get('.ft-input')
@@ -72,7 +62,6 @@ describe('TopNav', () => {
     await button.trigger('click')
 
     expect(actions.getVideoIdFromUrl).toHaveBeenCalled()
-    console.log(wrapper.vm.$route)
     expect(wrapper.vm.$route.path).toBe('/search/input')
   })
 })

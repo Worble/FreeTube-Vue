@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Subscriptions from '../views/Subscriptions/Subscriptions.vue'
 import Trending from '../views/Trending/Trending.vue'
@@ -12,11 +11,8 @@ import Playlist from '../views/Playlist/Playlist.vue'
 import Channel from '../views/Channel/Channel.vue'
 import Watch from '../views/Watch/Watch.vue'
 
-Vue.use(Router)
-
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       meta: {
         title: 'Subscriptions',
@@ -113,13 +109,16 @@ const router = new Router({
       component: Watch
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (savedPosition !== null) {
           resolve(savedPosition)
         } else {
-          resolve({ x: 0, y: 0 })
+          resolve({
+            x: 0,
+            y: 0
+          })
         }
       }, 500)
     })
@@ -129,9 +128,9 @@ const router = new Router({
 // dynamically set application title to current view
 router.afterEach(to => {
   let title =
-    to.path === '/home'
-      ? process.env.PRODUCT_NAME
-      : `${to.meta.title} - ${process.env.PRODUCT_NAME}`
+    to.path === '/home' ?
+    process.env.PRODUCT_NAME :
+    `${to.meta.title} - ${process.env.PRODUCT_NAME}`
 
   if (!title) {
     title = 'Home'

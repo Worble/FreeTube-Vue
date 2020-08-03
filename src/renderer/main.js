@@ -4,9 +4,16 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store/index'
 import 'material-design-icons/iconfont/material-icons.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  library
+} from '@fortawesome/fontawesome-svg-core'
+import {
+  fas
+} from '@fortawesome/free-solid-svg-icons'
+import {
+  FontAwesomeIcon
+} from '@fortawesome/vue-fontawesome'
+import Router from 'vue-router'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -18,6 +25,8 @@ library.add(fas)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+Vue.use(Router)
+
 /* eslint-disable-next-line */
 new Vue({
   el: '#app',
@@ -28,7 +37,9 @@ new Vue({
 
 // to avoild accesing electorn api from web app build
 if (window && window.process && window.process.type === 'renderer') {
-  const { ipcRenderer } = require('electron')
+  const {
+    ipcRenderer
+  } = require('electron')
 
   // handle menu event updates from main script
   ipcRenderer.on('change-view', (event, data) => {
