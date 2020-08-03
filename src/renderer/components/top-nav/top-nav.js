@@ -10,7 +10,7 @@ export default Vue.extend({
   name: 'TopNav',
   components: {
     FtInput,
-    FtSearchFilters
+    FtSearchFilters,
   },
   data: () => {
     return {
@@ -18,7 +18,7 @@ export default Vue.extend({
       windowWidth: 0,
       showFilters: false,
       searchSuggestionsDataList: [],
-      searchContainerHidden: false
+      searchContainerHidden: false,
     }
   },
   computed: {
@@ -91,15 +91,14 @@ export default Vue.extend({
             path: `/watch/${result}`,
           })
         } else {
-          encodeURIComponent(query);
           router.push({
-            path: `/search/${query}`,
+            path: `/search/${encodeURIComponent(query)}`,
             query: {
               sortBy: this.searchSettings.sortBy,
               time: this.searchSettings.time,
               type: this.searchSettings.type,
-              duration: this.searchSettings.duration
-            }
+              duration: this.searchSettings.duration,
+            },
           })
         }
       })
@@ -145,19 +144,24 @@ export default Vue.extend({
         resource: 'search/suggestions',
         id: '',
         params: {
-          q: query
-        }
+          q: query,
+        },
       }
 
-      this.$store.dispatch('invidiousAPICall', searchPayload).then((results) => {
-        this.searchSuggestionsDataList = results.suggestions
-      }).error((err) => {
-        console.log(err)
-        if (this.backendFallback) {
-          console.log('Error gettings search suggestions.  Falling back to Local API')
-          this.getSearchSuggestionsLocal(query)
-        }
-      })
+      this.$store
+        .dispatch('invidiousAPICall', searchPayload)
+        .then((results) => {
+          this.searchSuggestionsDataList = results.suggestions
+        })
+        .error((err) => {
+          console.log(err)
+          if (this.backendFallback) {
+            console.log(
+              'Error gettings search suggestions.  Falling back to Local API'
+            )
+            this.getSearchSuggestionsLocal(query)
+          }
+        })
     },
 
     toggleSearchContainer: function () {
@@ -183,6 +187,6 @@ export default Vue.extend({
 
     toggleSideNav: function () {
       this.$store.commit('toggleSideNav')
-    }
-  }
+    },
+  },
 })

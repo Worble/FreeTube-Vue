@@ -22,7 +22,6 @@ localVue.use(Vuex)
 library.add(fas)
 localVue.component('font-awesome-icon', FontAwesomeIcon)
 
-
 const router = new VueRouter()
 
 describe('TopNav', () => {
@@ -33,7 +32,14 @@ describe('TopNav', () => {
   beforeEach(() => {
     getters = {
       getEnableSearchSuggestions: jest.fn(),
-      getSearchSettings: jest.fn(),
+      getSearchSettings: jest.fn(x => {
+        return {
+          sortBy: '',
+          time: '',
+          type: '',
+          duration: ''
+        }
+      }),
       getIsSideNavOpen: jest.fn(),
       getBarColor: jest.fn(),
       getInvidiousInstance: jest.fn(),
@@ -42,7 +48,7 @@ describe('TopNav', () => {
     }
 
     actions = {
-      getVideoIdFromUrl: jest.fn(),
+      getVideoIdFromUrl: jest.fn(async x => null),
     }
 
     store = new Vuex.Store({
@@ -56,14 +62,17 @@ describe('TopNav', () => {
     const wrapper = mount(TopNav, {
       localVue,
       router,
-      store
+      store,
     })
 
-    const input = wrapper.get('.searchInput')
+    const input = wrapper.get('.ft-input')
     input.element.value = 'input'
     await input.trigger('input')
-    await input.trigger('click')
+    const button = wrapper.get('.inputAction')
+    await button.trigger('click')
 
     expect(actions.getVideoIdFromUrl).toHaveBeenCalled()
+    console.log(wrapper.vm.$route)
+    expect(wrapper.vm.$route.path).toBe('/search/input')
   })
 })
