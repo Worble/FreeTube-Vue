@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="topNav"
-    :class="{ topNavBarColor: barColor }"
-  >
+  <div class="topNav" :class="{ topNavBarColor: barColor }">
     <div class="side">
       <font-awesome-icon
         class="menuIcon navIcon"
@@ -25,16 +22,15 @@
         @click="toggleSearchContainer"
       />
       <div class="logo">
-        <div
-          class="logoIcon"
-        />
-        <div
-          class="logoText"
-        />
+        <div class="logoIcon" />
+        <div class="logoText" />
       </div>
     </div>
     <div class="middle">
-      <div class="searchContainer">
+      <div
+        class="searchContainer"
+        v-bind:class="{ hidden: searchContainerHidden }"
+      >
         <ft-input
           placeholder="Search / Go to URL"
           class="searchInput"

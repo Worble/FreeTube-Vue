@@ -17,7 +17,8 @@ export default Vue.extend({
       component: this,
       windowWidth: 0,
       showFilters: false,
-      searchSuggestionsDataList: []
+      searchSuggestionsDataList: [],
+      searchContainerHidden: false
     }
   },
   computed: {
@@ -53,18 +54,21 @@ export default Vue.extend({
     const appWidth = $(window).width()
 
     if (appWidth <= 680) {
-      const searchContainer = $('.searchContainer').get(0)
-      searchContainer.style.display = 'none'
+      //const searchContainer = $('.searchContainer').get(0)
+      //searchContainer.style.display = 'none'
+      this.searchContainerHidden = true
     }
 
-    window.addEventListener('resize', function(event) {
+    window.addEventListener('resize', (event) => {
       const width = event.srcElement.innerWidth
-      const searchContainer = $('.searchContainer').get(0)
+      //const searchContainer = $('.searchContainer').get(0)
 
       if (width > 680) {
-        searchContainer.style.display = ''
+        //searchContainer.style.display = ''
+        this.searchContainerHidden = false
       } else {
-        searchContainer.style.display = 'none'
+        //searchContainer.style.display = 'none'
+        this.searchContainerHidden = true
       }
     })
 
@@ -75,30 +79,28 @@ export default Vue.extend({
       const appWidth = $(window).width()
 
       if (appWidth <= 680) {
-        const searchContainer = $('.searchContainer').get(0)
-        searchContainer.blur()
-        searchContainer.style.display = 'none'
+        //const searchContainer = $('.searchContainer').get(0)
+        //searchContainer.blur()
+        //searchContainer.style.display = 'none'
+        this.searchContainerHidden = true
       }
 
       this.$store.dispatch('getVideoIdFromUrl', query).then((result) => {
         if (result) {
-          this.$router.push(
-            {
-              path: `/watch/${result}`,
-            }
-          )
+          this.$router.push({
+            path: `/watch/${result}`,
+          })
         } else {
-          router.push(
-            {
-              path: `/search/${query}`,
-              query: {
-                sortBy: this.searchSettings.sortBy,
-                time: this.searchSettings.time,
-                type: this.searchSettings.type,
-                duration: this.searchSettings.duration
-              }
+          encodeURIComponent(query);
+          router.push({
+            path: `/search/${query}`,
+            query: {
+              sortBy: this.searchSettings.sortBy,
+              time: this.searchSettings.time,
+              type: this.searchSettings.type,
+              duration: this.searchSettings.duration
             }
-          )
+          })
         }
       })
 
@@ -159,13 +161,14 @@ export default Vue.extend({
     },
 
     toggleSearchContainer: function () {
-      const searchContainer = $('.searchContainer').get(0)
+      // const searchContainer = $('.searchContainer').get(0)
 
-      if (searchContainer.style.display === 'none') {
-        searchContainer.style.display = ''
-      } else {
-        searchContainer.style.display = 'none'
-      }
+      // if (searchContainer.style.display === 'none') {
+      //   searchContainer.style.display = ''
+      // } else {
+      //   searchContainer.style.display = 'none'
+      // }
+      this.searchContainerHidden = !this.searchContainerHidden
 
       this.showFilters = false
     },
