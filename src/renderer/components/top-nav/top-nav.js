@@ -2,7 +2,6 @@ import Vue from 'vue'
 import FtInput from '../ft-input/ft-input.vue'
 import FtSearchFilters from '../ft-search-filters/ft-search-filters.vue'
 import $ from 'jquery'
-import router from '../../router/index.js'
 import debounce from 'lodash.debounce'
 import ytSuggest from 'youtube-suggest'
 
@@ -54,20 +53,15 @@ export default Vue.extend({
     const appWidth = $(window).width()
 
     if (appWidth <= 680) {
-      //const searchContainer = $('.searchContainer').get(0)
-      //searchContainer.style.display = 'none'
       this.searchContainerHidden = true
     }
 
     window.addEventListener('resize', (event) => {
       const width = event.srcElement.innerWidth
-      //const searchContainer = $('.searchContainer').get(0)
 
       if (width > 680) {
-        //searchContainer.style.display = ''
         this.searchContainerHidden = false
       } else {
-        //searchContainer.style.display = 'none'
         this.searchContainerHidden = true
       }
     })
@@ -76,12 +70,7 @@ export default Vue.extend({
   },
   methods: {
     goToSearch: function (query) {
-      const appWidth = $(window).width()
-
-      if (appWidth <= 680) {
-        //const searchContainer = $('.searchContainer').get(0)
-        //searchContainer.blur()
-        //searchContainer.style.display = 'none'
+      if (window.innerWidth <= 680) {
         this.searchContainerHidden = true
       }
 
@@ -91,7 +80,7 @@ export default Vue.extend({
             path: `/watch/${result}`,
           })
         } else {
-          router.push({
+          this.$router.push({
             path: `/search/${encodeURIComponent(query)}`,
             query: {
               sortBy: this.searchSettings.sortBy,
@@ -165,13 +154,6 @@ export default Vue.extend({
     },
 
     toggleSearchContainer: function () {
-      // const searchContainer = $('.searchContainer').get(0)
-
-      // if (searchContainer.style.display === 'none') {
-      //   searchContainer.style.display = ''
-      // } else {
-      //   searchContainer.style.display = 'none'
-      // }
       this.searchContainerHidden = !this.searchContainerHidden
 
       this.showFilters = false
