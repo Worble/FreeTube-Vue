@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import FtInput from '../ft-input/ft-input.vue'
 import FtSearchFilters from '../ft-search-filters/ft-search-filters.vue'
-import $ from 'jquery'
 import debounce from 'lodash.debounce'
 import ytSuggest from 'youtube-suggest'
 
@@ -50,9 +49,7 @@ export default Vue.extend({
     },
   },
   mounted: function () {
-    const appWidth = $(window).width()
-
-    if (appWidth <= 680) {
+    if (window.innerWidth <= 680) {
       this.searchContainerHidden = true
     }
 
